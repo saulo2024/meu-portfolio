@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Nome | Desenvolvedor Full-Stack</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter (para texto) e Satoshi (para títulos - via @font-face) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js CDN (para o objeto 3D) -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <style>
+        /* Importando a fonte Satoshi para títulos */
+        @font-face {
+            font-family: 'Satoshi';
+            src: url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap') format('woff2');
+            font-weight: 400 700;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E2E8F0; /* slate-200 */
+            cursor: none; /* Esconde o cursor padrão */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Efeito Aurora no fundo */
+        .aurora-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 245, 212, 0.4), transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 0, 245, 0.4), transparent 40%);
+            filter: blur(100px);
+            animation: pulse-aurora 15s infinite alternate;
+        }
+        
+        @keyframes pulse-aurora {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2); }
+        }
+
+        /* Cursor Customizado */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #F7FF00; /* Amarelo Elétrico */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
+            z-index: 9999;
+        }
+        .custom-cursor.pointer {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(247, 255, 0, 0.2);
+        }
+
+        /* Estilo "Glassmorphism" para os cards */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.5); /* gray-900 com 50% de opacidade */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 245, 212, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animação de entrada */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Cursor customizado -->
+    <div class="custom-cursor"></div>
+
+    <!-- Fundo com efeito Aurora -->
+    <div class="aurora-background"></div>
+
+    <div class="relative min-h-screen w-full mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Cabeçalho -->
+        <header class="absolute top-0 left-0 right-0 z-10 py-6">
+            <nav class="container mx-auto flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">SN.</h2>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#sobre" class="text-slate-300 hover:text-white transition-colors">Sobre</a>
+                    <a href="#projetos" class="text-slate-300 hover:text-white transition-colors">Projetos</a>
+                    <a href="#contato" class="bg-[#F7FF00] text-black font-bold py-2 px-4 rounded-lg hover:bg-opacity-80 transition-all">Contato</a>
+                </div>
+                <div class="md:hidden">
+                    <!-- Ícone de Menu para mobile (funcionalidade a ser implementada) -->
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Seção Principal (Hero) -->
+        <main class="flex flex-col lg:flex-row items-center justify-center min-h-screen pt-24 lg:pt-0">
+            <div class="lg:w-1/2 text-center lg:text-left z-10">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-4 fade-in-up">
+                    <span class="text-slate-400">Olá, eu sou</span><br>Seu Nome.
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 fade-in-up" style="animation-delay: 0.2s;">
+                    Desenvolvedor Full-Stack transformando ideias complexas em <span class="text-[#00F5D4]">experiências digitais</span> intuitivas e performáticas.
+                </p>
+                <div class="flex justify-center lg:justify-start space-x-4 fade-in-up" style="animation-delay: 0.4s;">
+                    <a href="#projetos" class="bg-[#F7FF00] text-black font-bold py-3 px-6 rounded-lg hover:scale-105 transition-transform">Ver Meus Projetos</a>
+                    <a href="https://github.com/seu-usuario" target="_blank" class="border-2 border-slate-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800 hover:border-slate-700 transition-all">GitHub</a>
+                </div>
+            </div>
+            <div id="canvas-container" class="lg:w-1/2 h-96 lg:h-full w-full mt-8 lg:mt-0">
+                <!-- O canvas do Three.js será inserido aqui -->
+            </div>
+        </main>
+
+        <!-- Seção Bento Grid (Sobre & Projetos) -->
+        <div id="sobre" class="container mx-auto py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card: Sobre Mim -->
+                <div class="lg:col-span-2 glass-card p-8 rounded-2xl fade-in-up">
+                    <h3 class="text-3xl font-bold text-white mb-4">Sobre Mim</h3>
+                    <p class="text-slate-300 mb-4">
+                        Sou um desenvolvedor apaixonado por tecnologia e design, com X anos de experiência na criação de soluções web robustas e escaláveis. Minha jornada começou com [sua história inicial] e hoje meu foco é em [sua especialidade, ex: MERN stack, JAMstack].
+                    </p>
+                    <p class="text-slate-300">
+                        Fora do código, gosto de [seu hobby 1], [seu hobby 2] e explorar novas tendências em [área de interesse].
+                    </p>
+                </div>
+
+                <!-- Card: Minha Stack -->
+                <div class="glass-card p-8 rounded-2xl fade-in-up" style="animation-delay: 0.1s;">
+                    <h3 class="text-3xl font-bold text-white mb-4">Minha Stack</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <!-- Substitua pelos ícones/nomes das suas tecnologias -->
+                        <span class="bg-gray-700 text-sm text-cyan-300 py-1 px-3 rounded-full">React</span>
+                        <span class="bg-gray-700 text-sm text-green-300 py-1 px-3 rounded-full">Node.js</span>
+                        <span class="bg-gray-700 text-sm text-blue-300 py-1 px-3 rounded-full">TypeScript</span>
+                        <span class="bg-gray-700 text-sm text-yellow-300 py-1 px-3 rounded-full">Python</span>
+                        <span class="bg-gray-700 text-sm text-blue-400 py-1 px-3 rounded-full">Docker</span>
+                        <span class="bg-gray-700 text-sm text-purple-300 py-1 px-3 rounded-full">GraphQL</span>
+                        <span class="bg-gray-700 text-sm text-orange-300 py-1 px-3 rounded-full">AWS</span>
+                    </div>
+                </div>
+
+                <!-- Seção de Projetos -->
+                <div id="projetos" class="lg:col-span-3 text-center mt-16 mb-8 fade-in-up">
+                     <h2 class="text-4xl md:text-5xl font-bold text-white">Projetos em Destaque</h2>
+                </div>
+
+                <!-- Projeto 1 -->
+                <div class="lg:col-span-2 glass-card rounded-2xl overflow-hidden group fade-in-up">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Nome do Projeto 1</h3>
+                        <p class="text-slate-400 mb-4">Uma breve descrição do projeto, o problema que ele resolve e sua contribuição principal.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-semibold bg-cyan-900 text-cyan-200 py-1 px-2 rounded">Next.js</span>
+                            <span class="text-xs font-semibold bg-green-900 text-green-200 py-1 px-2 rounded">PostgreSQL</span>
+                            <span class="text-xs font-semibold bg-blue-900 text-blue-200 py-1 px-2 rounded">Tailwind CSS</span>
+                        </div>
+                        <a href="#" class="text-[#F7FF00] font-bold hover:underline">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Projeto 2 -->
+                <div class="glass-card rounded-2xl overflow-hidden group fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Nome do Projeto 2</h3>
+                        <p class="text-slate-400 mb-4">Descrição curta de um projeto mobile ou uma API complexa.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-semibold bg-blue-900 text-blue-200 py-1 px-2 rounded">React Native</span>
+                            <span class="text-xs font-semibold bg-purple-900 text-purple-200 py-1 px-2 rounded">Firebase</span>
+                        </div>
+                        <a href="#" class="text-[#F7FF00] font-bold hover:underline">Ver no GitHub →</a>
+                    </div>
+                </div>
+
+                <!-- Projeto 3 -->
+                <div class="glass-card rounded-2xl overflow-hidden group fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Nome do Projeto 3</h3>
+                        <p class="text-slate-400 mb-4">Descrição de uma ferramenta de back-end, script de automação ou contribuição open-source.</p>
+                         <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs font-semibold bg-yellow-900 text-yellow-200 py-1 px-2 rounded">Python (Django)</span>
+                            <span class="text-xs font-semibold bg-red-900 text-red-200 py-1 px-2 rounded">Redis</span>
+                        </div>
+                        <a href="#" class="text-[#F7FF00] font-bold hover:underline">Ver Detalhes →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Contato -->
+        <footer id="contato" class="container mx-auto text-center py-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 fade-in-up">Vamos Conversar?</h2>
+            <p class="text-slate-300 max-w-2xl mx-auto mb-8 fade-in-up" style="animation-delay: 0.1s;">
+                Estou sempre aberto a novas oportunidades e colaborações. Sinta-se à vontade para entrar em contato.
+            </p>
+            <a href="mailto:seu-email@dominio.com" class="inline-block bg-[#F7FF00] text-black font-bold text-lg py-4 px-8 rounded-lg hover:scale-105 transition-transform fade-in-up" style="animation-delay: 0.2s;">
+                seu-email@dominio.com
+            </a>
+            <div class="flex justify-center space-x-6 mt-12 fade-in-up" style="animation-delay: 0.3s;">
+                <a href="https://linkedin.com/in/seu-usuario" target="_blank" class="text-slate-400 hover:text-white transition-colors">LinkedIn</a>
+                <a href="https://github.com/seu-usuario" target="_blank" class="text-slate-400 hover:text-white transition-colors">GitHub</a>
+                <a href="https://twitter.com/seu-usuario" target="_blank" class="text-slate-400 hover:text-white transition-colors">Twitter / X</a>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        // ===================================================
+        // SCRIPT PARA O OBJETO 3D INTERATIVO COM THREE.JS
+        // ===================================================
+        import * as THREE from 'three';
+
+        // --- Configuração básica ---
+        const scene = new THREE.Scene();
+        const container = document.getElementById('canvas-container');
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); // alpha:true para fundo transparente
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // --- Geometria (um Icosaedro para um visual "cristalino") ---
+        const geometry = new THREE.IcosahedronGeometry(1.5, 0);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x00F5D4, // Ciano
+            emissive: 0xaa00aa, // Emissivo Magenta/Roxo
+            emissiveIntensity: 0.2,
+            metalness: 0.8,
+            roughness: 0.2,
+            wireframe: true, // Efeito de "arame" que é super moderno
+            wireframeLinewidth: 2,
+        });
+        const crystal = new THREE.Mesh(geometry, material);
+        scene.add(crystal);
+        
+        // --- Iluminação ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0x00F5D4, 1.5, 100);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        const pointLight2 = new THREE.PointLight(0xFF00F5, 1.5, 100);
+        pointLight2.position.set(-5, -5, -2);
+        scene.add(pointLight2);
+
+        // --- Interação com o Mouse ---
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // --- Loop de Animação ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotação contínua
+            crystal.rotation.x += 0.001;
+            crystal.rotation.y += 0.001;
+
+            // Rotação baseada na posição do mouse para interatividade
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- Responsividade do Canvas ---
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+
+        // ===================================================
+        // SCRIPT PARA O CURSOR CUSTOMIZADO
+        // ===================================================
+        const cursor = document.querySelector('.custom-cursor');
+        const pointerElements = document.querySelectorAll('a, button');
+
+        document.addEventListener('mousemove', e => {
+            cursor.setAttribute('style', `top: ${e.pageY}px; left: ${e.pageX}px;`);
+        });
+
+        pointerElements.forEach(item => {
+            item.addEventListener('mouseover', () => {
+                cursor.classList.add('pointer');
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.classList.remove('pointer');
+            });
+        });
+        
+        // ===================================================
+        // SCRIPT PARA ANIMAÇÃO DE SCROLL (FADE-IN)
+        // ===================================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up-active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+    </script>
+</body>
+</html>
